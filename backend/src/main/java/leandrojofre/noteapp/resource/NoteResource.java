@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -37,6 +38,17 @@ public class NoteResource {
 
 	@GetMapping("/{id}")
 	public ResponseEntity<Note> getNote(@PathVariable(value = "id") String id) {
+		return ResponseEntity.ok().body(noteService.getNote(id));
+	}
+
+	@PutMapping("/{id}")
+	public ResponseEntity<Note> updateNote(
+			@PathVariable(value = "id") String id,
+			@RequestParam(value = "title", defaultValue = "null") String title,
+			@RequestParam(value = "content", defaultValue = "null") String content) {
+
+		noteService.updateNote(id, title, content);
+
 		return ResponseEntity.ok().body(noteService.getNote(id));
 	}
 

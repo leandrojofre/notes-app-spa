@@ -31,6 +31,18 @@ public class NoteService {
 		return noteRepo.save(note);
 	}
 
+	public void updateNote(String id, String title, String content) {
+		Note note = getNote(id);
+
+		if ("null".equals(title))
+			title = note.getTitle();
+		if ("null".equals(content))
+			content = note.getContent();
+
+		note.setTitle(title);
+		note.setContent(content);
+	}
+
 	public void deleteNote(Note note) {
 		noteRepo.delete(note);
 	}
