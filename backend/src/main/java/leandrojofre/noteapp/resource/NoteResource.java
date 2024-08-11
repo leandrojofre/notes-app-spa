@@ -4,6 +4,7 @@ import java.net.URI;
 
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,5 +38,15 @@ public class NoteResource {
 	@GetMapping("/{id}")
 	public ResponseEntity<Note> getNote(@PathVariable(value = "id") String id) {
 		return ResponseEntity.ok().body(noteService.getNote(id));
+	}
+
+	@DeleteMapping("/{id}")
+	public ResponseEntity<String> deleteNote(@PathVariable(value = "id") String id) {
+		Note note = noteService.getNote(id);
+		String noteName = note.getTitle();
+
+		noteService.deleteNote(note);
+
+		return ResponseEntity.ok().body(noteName + " (id): " + id + " / successfully removed.");
 	}
 }

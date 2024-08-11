@@ -30,4 +30,8 @@ public class NoteService {
 	public Note createNote(Note note) {
 		return noteRepo.save(note);
 	}
+
+	public void deleteNote(Note note) {
+		noteRepo.delete(note);
+	}
 }
