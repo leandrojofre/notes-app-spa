@@ -15,11 +15,12 @@ function App() {
 	const [formValues, setFormValues] = useState({title: "", content: ""});
 
 	const getAllNotes = async (page = 0, size = 6) => {
+		console.log("getAllNotes");
+		
 		try {
 			setCurrentPage(page);
 			const {data} = await getNotes(page, size);
 			setData(data);
-			
 		} catch (error) {
 			console.log(error);
 		}
@@ -36,6 +37,7 @@ function App() {
 
 		try {
 			await createNote(formValues);
+			await getAllNotes();
 			resetForm()
 		} catch (error) {
 			console.log(error);
@@ -54,7 +56,7 @@ function App() {
 			<Routes>
 				<Route path='/' element={ <Navigate to={'/notes'} /> } />
 				<Route path='/notes' element={ <NotePad data={data} currentPage={currentPage} getAllNotes={getAllNotes} /> } />
-				<Route path='/notes/:id' element={ <Note /> } />
+				<Route path='/notes/:id' element={ <Note getAllNotes={getAllNotes} /> } />
 			</Routes>
 		</main>
 

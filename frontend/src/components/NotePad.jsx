@@ -7,7 +7,7 @@ const NotePad = ({ data, currentPage, getAllNotes }) => {
 	{data?.content?.length === 0 && <div>Nothing to see, create a new note...</div>}
 
 	<ul className='container-col'>
-		{data?.content?.length > 0 && data.content.map(note => <NoteButton note={note} key={note.id}></NoteButton>)}
+		{data?.content?.length > 0 && data.content.map(note => <NoteButton getAllNotes={getAllNotes} note={note} key={note.id}></NoteButton>)}
 	</ul>
 	
 	{data?.content?.length > 0 && data?.totalPages > 1 &&

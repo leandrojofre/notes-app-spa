@@ -2,9 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { getNote, updateNote } from '../api/NoteService';
 
-// { updateNote }
-
-const Note = () => {
+const Note = ({ getAllNotes }) => {
 	const MAX_LENGTH_TITLE = 70
 	const MAX_LENGTH_CONTENT = 2500
 
@@ -29,6 +27,7 @@ const Note = () => {
 
 		try {
 			await updateNote(id, note.title, note.content);
+			await getAllNotes();
 
 			setSaveStatus({ opacity: 1 });
 			

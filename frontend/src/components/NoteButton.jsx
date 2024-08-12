@@ -2,7 +2,7 @@ import React, { useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { deleteNote } from '../api/NoteService'
 
-const NoteButton = ({ note }) => {
+const NoteButton = ({ note, getAllNotes }) => {
 	const MAX_LENGTH_TITLE = 70
 	const MAX_LENGTH_CONTENT = 80
 	const EXTRA = note.content.length > MAX_LENGTH_CONTENT ? "..." : "";
@@ -15,6 +15,7 @@ const NoteButton = ({ note }) => {
 
 		try {
 			await deleteNote(note.id);
+			await getAllNotes();
 		} catch (error) {
 			console.log(error);
 		}
