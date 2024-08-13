@@ -1,8 +1,8 @@
 package leandrojofre.noteapp.resource;
 
 import java.net.URI;
+import java.util.List;
 
-import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/notes")
 @RequiredArgsConstructor
 public class NoteResource {
+
 	private final NoteService noteService;
 
 	@PostMapping
@@ -30,10 +31,8 @@ public class NoteResource {
 	}
 
 	@GetMapping
-	public ResponseEntity<Page<Note>> getNotes(
-			@RequestParam(value = "page", defaultValue = "0") int page,
-			@RequestParam(value = "size", defaultValue = "10") int size) {
-		return ResponseEntity.ok().body(noteService.getAllNotes(page, size));
+	public ResponseEntity<List<Note>> getNotes() {
+		return ResponseEntity.ok().body(noteService.getAllNotes());
 	}
 
 	@GetMapping("/{id}")
@@ -45,9 +44,10 @@ public class NoteResource {
 	public ResponseEntity<Note> updateNote(
 			@PathVariable(value = "id") String id,
 			@RequestParam(value = "title", defaultValue = "null") String title,
-			@RequestParam(value = "content", defaultValue = "null") String content) {
+			@RequestParam(value = "content", defaultValue = "null") String content,
+			@RequestParam(value = "archive", defaultValue = "null") String archive) {
 
-		noteService.updateNote(id, title, content);
+		noteService.updateNote(id, title, content, archive);
 
 		return ResponseEntity.ok().body(noteService.getNote(id));
 	}

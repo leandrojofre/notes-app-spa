@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import NoteButton from './NoteButton';
+import ArchiveElement from './ArchiveElement';
 import Pagination from './Pagination';
 
-const NotePad = ({ data, getAllNotes }) => {
+const Archive = ({ data, getAllNotes }) => {
 	const [pageConfig, setConfiguration] = useState({ pageSize: 6, currentPage: 0, pageStartIndex: 0 });
 
 	const pageChanged = async (pageChange) => {
@@ -14,7 +14,6 @@ const NotePad = ({ data, getAllNotes }) => {
 		
 		let currentPage = pageConfig.currentPage;
 		let pageStartIndex;
-
 			if (pageChange === "-1") currentPage -= 1;
 		else if (pageChange === "+1") currentPage += 1;
 		else currentPage = pageChange;
@@ -27,27 +26,26 @@ const NotePad = ({ data, getAllNotes }) => {
 	return (
 	<>
 	<div className='container-col'>
-	
+		
 		<div className='container-normal'>
-			<Link to={`/archive`} className='button'>
-				<p className='title-sma'>&raquo; Archived Notes</p>
+			<Link to={`/notes`} className='button'>
+				<p className='title-sma'>&laquo; Notes</p>
 			</Link>
 		</div>
-
-		{data instanceof Array && data.notes.length === 0 && <div>Nothing to see, create a new note...</div>}
+		
+		{data instanceof Array && data.archive.length === 0 && <div>Nothing to see, create a new note...</div>}
 
 		<ul className='container-col'>
-			{data instanceof Array && data.length > 0 && data.notes
+			{data instanceof Array && data.length > 0 && data.archive
 				.filter((data, i) => i >= pageConfig.pageStartIndex && i < pageConfig.pageStartIndex + pageConfig.pageSize)
-				.map((note) => <NoteButton getAllNotes={getAllNotes} note={note} key={note.id}></NoteButton>)
+				.map((note) => <ArchiveElement getAllNotes={getAllNotes} note={note} key={note.id}></ArchiveElement>)
 			}
 		</ul>
 		
-		<Pagination pageChanged={pageChanged} data={data} pageConfig={pageConfig} getAllNotes={getAllNotes} dataName={"notes"} />
-	
+		<Pagination pageChanged={pageChanged} data={data} pageConfig={pageConfig} getAllNotes={getAllNotes} dataName={"archive"} />
 	</div>
 	</>
 	)
 }
 
-export default NotePad
+export default Archive

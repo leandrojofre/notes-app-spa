@@ -18,7 +18,6 @@ a {
 .button,
 button {
 	user-select: none;
-	align-content: center;
 	cursor: pointer;
 	
 	width: auto;
@@ -37,10 +36,19 @@ button {
 	border-image: initial;
 }
 
+.no-cursor {
+	cursor: default;
+}
+
 .button:hover,
 button:hover {
 	background-color: gray;
 	-webkit-text-fill-color: white;
+}
+
+.no-cursor:hover {
+	-webkit-text-fill-color: unset;
+	background-color: whitesmoke;
 }
 
 .active {
