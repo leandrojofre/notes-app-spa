@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { createNote, getNotes } from './api/NoteService';
 import './App.css';
+import Archive from './components/Archive';
 import Header from './components/Header';
 import Note from './components/Note';
 import NotePad from './components/NotePad';
@@ -37,9 +38,13 @@ function App() {
 		e.preventDefault();
 
 		try {
+			setFormValues({...formValues, "archive": "null"});
+
 			await createNote(formValues);
 			await getAllNotes();
-			resetForm()
+
+			toggleModal(false);
+			resetForm();
 		} catch (error) {
 			console.log(error);
 		}
@@ -51,12 +56,13 @@ function App() {
 
 	return (
 		<>
-		<Header toggleModal={toggleModal} numberOfNotes={data.totalElements} />
+		<Header toggleModal={toggleModal} numberOfNotes={data.length} />
 		
 		<main className='main'>
 			<Routes>
 				<Route path='/' element={ <Navigate to={'/notes'} /> } />
-				<Route path='/notes' element={ <NotePad data={data} currentPage={currentPage} getAllNotes={getAllNotes} /> } />
+				<Route path='/archive' element={ <Archive data={data} getAllNotes={getAllNotes} /> } />
+				<Route path='/notes' element={ <NotePad data={data} getAllNotes={getAllNotes} /> } />
 				<Route path='/notes/:id' element={ <Note getAllNotes={getAllNotes} /> } />
 			</Routes>
 		</main>

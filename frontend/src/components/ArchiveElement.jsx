@@ -1,13 +1,13 @@
 import React, { useRef } from 'react';
-import { Link } from 'react-router-dom';
 import { deleteNote, updateNote } from '../api/NoteService';
 
-const NoteButton = ({ note, getAllNotes }) => {
+const ArchiveElement = ({ note, getAllNotes }) => {
+
 	const MAX_LENGTH_TITLE = 70;
 	const MAX_LENGTH_CONTENT = 80;
 	const EXTRA = note.content.length > MAX_LENGTH_CONTENT ? "..." : "";
 	const modalRef = useRef();
-
+	
 	const toggleModal = (show) => (show) ? modalRef.current.showModal() : modalRef.current.close();
 
 	const deleteNoteButton = async (e) => {
@@ -21,9 +21,9 @@ const NoteButton = ({ note, getAllNotes }) => {
 		}
 	}
 
-	const archiveNote = async (e) => {
+	const unarchiveNote = async (e) => {
 		try {
-			await updateNote(note.id, note.title, note.content, "true");
+			await updateNote(note.id, note.title, note.content, null);
 			await getAllNotes();
 		} catch (error) {
 			console.log(error);
@@ -32,14 +32,15 @@ const NoteButton = ({ note, getAllNotes }) => {
 
 	return (
 	<>
+	
 	<div className='container-col'>
 		<div className='container-row'>
-			<Link to={`/notes/${note.id}`} className='note-item button'>
+			<div className='note-item button no-cursor'>
 				<p className='note-title title-sma'>&raquo; {note.title.substring(0, MAX_LENGTH_TITLE)}</p>
-			</Link>
+			</div>
 			
 			<div className='container-row'>
-				<button className='button' onClick={archiveNote}>Archive</button>
+				<button className='button' onClick={unarchiveNote}>Unarchive</button>
 				<button className='button' onClick={() => toggleModal(true)}>Delete</button>
 			</div>
 		</div>
@@ -56,8 +57,9 @@ const NoteButton = ({ note, getAllNotes }) => {
 			</div>
 		</div>
 	</dialog>
+	
 	</>
 	)
 }
 
-export default NoteButton
+export default ArchiveElement
