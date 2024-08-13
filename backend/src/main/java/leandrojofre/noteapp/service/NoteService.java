@@ -1,7 +1,7 @@
 package leandrojofre.noteapp.service;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import java.util.List;
+
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -19,8 +19,8 @@ public class NoteService {
 
 	private final NoteRepo noteRepo;
 
-	public Page<Note> getAllNotes(int page, int size) {
-		return noteRepo.findAll(PageRequest.of(page, size, Sort.by("title")));
+	public List<Note> getAllNotes() {
+		return noteRepo.findAll(Sort.by("title"));
 	}
 
 	public Note getNote(String id) {
@@ -31,16 +31,19 @@ public class NoteService {
 		return noteRepo.save(note);
 	}
 
-	public void updateNote(String id, String title, String content) {
+	public void updateNote(String id, String title, String content, String archive) {
 		Note note = getNote(id);
 
 		if ("null".equals(title))
 			title = note.getTitle();
 		if ("null".equals(content))
 			content = note.getContent();
+		if (!archive.contains("true"))
+			archive = "null";
 
 		note.setTitle(title);
 		note.setContent(content);
+		note.setArchive(archive);
 	}
 
 	public void deleteNote(Note note) {
