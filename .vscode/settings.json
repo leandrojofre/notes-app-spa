@@ -3,7 +3,7 @@
 	"java.compile.nullAnalysis.mode": "automatic",
 	"java.configuration.updateBuildConfiguration": "interactive",
 	"editor.guides.bracketPairs": "active",
-	"java.jdt.ls.java.home": "C:\\Program Files\\Java\\jdk-22",
+	"java.jdt.ls.java.home": "C:\\Program Files\\Java\\jdk-21",
 	"cSpell.words": [
 		"springframework"
 	]

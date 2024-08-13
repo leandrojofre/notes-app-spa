@@ -3,7 +3,7 @@ package leandrojofre.noteapp;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-// Running in: http://127.0.0.1:8081/notes
+// Running in: http://localhost:8081/notes
 // HTTP calls handled with Postman: https://web.postman.co/
 
 @SpringBootApplication
