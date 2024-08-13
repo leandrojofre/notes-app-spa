@@ -10,16 +10,17 @@ function App() {
 	const MAX_LENGTH_TITLE = 70
 	const MAX_LENGTH_CONTENT = 2500
 	const modalRef = useRef();
-	const [data, setData] = useState({ totalElements: 0 });
-	const [currentPage, setCurrentPage] = useState(0);
-	const [formValues, setFormValues] = useState({title: "", content: ""});
 
-	const getAllNotes = async (page = 0, size = 6) => {
-		console.log("getAllNotes");
-		
+	const [data, setData] = useState({ length: 0 })
+	const [formValues, setFormValues] = useState({title: "", content: "", archive: ""});
+
+	const getAllNotes = async () => {
 		try {
-			setCurrentPage(page);
-			const {data} = await getNotes(page, size);
+			const {data} = await getNotes();
+
+			data.notes = data.filter((note) => !(note.archive === "true"));
+			data.archive = data.filter((note) => (note.archive === "true"));
+
 			setData(data);
 		} catch (error) {
 			console.log(error);
