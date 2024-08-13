@@ -3,12 +3,12 @@ import { Link, useParams } from 'react-router-dom';
 import { getNote, updateNote } from '../api/NoteService';
 
 const Note = ({ getAllNotes }) => {
-	const MAX_LENGTH_TITLE = 70
-	const MAX_LENGTH_CONTENT = 2500
+	const MAX_LENGTH_TITLE = 70;
+	const MAX_LENGTH_CONTENT = 2500;
 
 	const [note, setNote] = useState({title: "", content: ""});
 	const [saveStatus, setSaveStatus] = useState({opacity: 0});
-	const [classHidden, setClassHidden] = useState({title: "note-title", inputTitle: "input-text hidden"})
+	const [classHidden, setClassHidden] = useState({title: "note-title", inputTitle: "input-text hidden"});
 	const { id } = useParams();
 
 	const apiGetNote = async (id) => {

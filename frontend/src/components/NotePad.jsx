@@ -1,32 +1,51 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import NoteButton from './NoteButton';
+import Pagination from './Pagination';
 
-const NotePad = ({ data, currentPage, getAllNotes }) => {
+const NotePad = ({ data, getAllNotes }) => {
+	const [pageConfig, setConfiguration] = useState({ pageSize: 6, currentPage: 0, pageStartIndex: 0 });
+
+	const pageChanged = async (pageChange) => {
+
+		await getAllNotes();
+
+		const pageSize = 6
+		
+		let currentPage = pageConfig.currentPage;
+		let pageStartIndex;
+
+			if (pageChange === "-1") currentPage -= 1;
+		else if (pageChange === "+1") currentPage += 1;
+		else currentPage = pageChange;
+
+		pageStartIndex = pageSize * currentPage;
+
+		setConfiguration({ pageSize: pageSize, currentPage: currentPage, pageStartIndex: pageStartIndex });
+	}
+
 	return (
 	<>
-	{data?.content?.length === 0 && <div>Nothing to see, create a new note...</div>}
-
-	<ul className='container-col'>
-		{data?.content?.length > 0 && data.content.map(note => <NoteButton getAllNotes={getAllNotes} note={note} key={note.id}></NoteButton>)}
-	</ul>
+	<div className='container-col'>
 	
-	{data?.content?.length > 0 && data?.totalPages > 1 &&
-		<div className='container-col center-child'>
-			<div className='container-normal'>
-				<a onClick={() => getAllNotes(currentPage - 1)} className={(currentPage == 0) ? 'disabled button' : 'button'}> &laquo; </a>
-
-					{data.totalElements && [...Array(data.totalPages).keys()].map((page) => {
-						return (
-							page > currentPage - 3 &&
-							page < currentPage + 3 &&
-							<a onClick={() => getAllNotes(page)} className={(currentPage === page) ? 'active button' : 'button'} key={page}> {page + 1} </a>
-						)
-					})}
-
-				<a onClick={() => getAllNotes(currentPage + 1)} className={(currentPage + 1 === data.totalPages) ? 'disabled button right' : 'button right'}> &raquo; </a>
-			</div>
+		<div className='container-normal'>
+			<Link to={`/archive`} className='button'>
+				<p className='title-sma'>&raquo; Archived Notes</p>
+			</Link>
 		</div>
-	}
+
+		{data instanceof Array && data.notes.length === 0 && <div>Nothing to see, create a new note...</div>}
+
+		<ul className='container-col'>
+			{data instanceof Array && data.length > 0 && data.notes
+				.filter((data, i) => i >= pageConfig.pageStartIndex && i < pageConfig.pageStartIndex + pageConfig.pageSize)
+				.map((note) => <NoteButton getAllNotes={getAllNotes} note={note} key={note.id}></NoteButton>)
+			}
+		</ul>
+		
+		<Pagination pageChanged={pageChanged} data={data} pageConfig={pageConfig} getAllNotes={getAllNotes} dataName={"notes"} />
+	
+	</div>
 	</>
 	)
 }
