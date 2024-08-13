@@ -15,8 +15,6 @@ function App() {
 	const [formValues, setFormValues] = useState({title: "", content: ""});
 
 	const getAllNotes = async (page = 0, size = 6) => {
-		console.log("getAllNotes");
-		
 		try {
 			setCurrentPage(page);
 			const {data} = await getNotes(page, size);

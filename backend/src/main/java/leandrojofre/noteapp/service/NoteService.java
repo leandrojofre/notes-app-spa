@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
 import leandrojofre.noteapp.domain.Note;
+import leandrojofre.noteapp.domain.NoteArchive;
+import leandrojofre.noteapp.repo.NoteArchiveRepo;
 import leandrojofre.noteapp.repo.NoteRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 public class NoteService {
 
 	private final NoteRepo noteRepo;
+	private final NoteArchiveRepo noteArchiveRepo;
 
 	public Page<Note> getAllNotes(int page, int size) {
 		return noteRepo.findAll(PageRequest.of(page, size, Sort.by("title")));
@@ -45,5 +48,15 @@ public class NoteService {
 
 	public void deleteNote(Note note) {
 		noteRepo.delete(note);
+	}
+
+	public void archiveNote(String id) {
+		Note note = getNote(id);
+		NoteArchive newArchive = new NoteArchive();
+
+		newArchive.setTitle(note.getTitle());
+		newArchive.setContent(note.getContent());
+
+		noteArchiveRepo.save(newArchive);
 	}
 }
