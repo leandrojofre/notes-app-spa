@@ -61,7 +61,7 @@ function App() {
 		</main>
 
 		<dialog ref={modalRef}>
-			<form className='container-col' method='dialog' onSubmit={handleFormSubmit}>
+			<form id='create-note-form' className='container-col' method='dialog' onSubmit={handleFormSubmit}>
 				<div className='container-row'>
 					<p className='title-med'>Create a new note:</p>
 					<button type='button' onClick={() => toggleModal(false)} className='button right'>X</button>
@@ -69,16 +69,16 @@ function App() {
 				<div className='container-col'>
 					<div className='container-col'>
 						<p className='title-sma'>Title:</p>
-						<input minLength='1' maxLength={MAX_LENGTH_TITLE} type='text' value={formValues.title} onChange={onChange} className='input-monoline' name='title' />
+						<input required minLength='1' maxLength={MAX_LENGTH_TITLE} type='text' value={formValues.title} onChange={onChange} className='input-monoline' name='title' />
 					</div>
 					<div className='container-col'>
 						<p className='title-sma'>Note:</p>
-						<textarea maxLength={MAX_LENGTH_CONTENT} form='note-form' name='content' className='input-text' onChange={onChange} value={formValues.content} >
+						<textarea required minLength='1' maxLength={MAX_LENGTH_CONTENT} form='create-note-form' name='content' className='input-text' onChange={onChange} value={formValues.content} >
 						</textarea>
 					</div>
 					<div className='container-row'>
 						<button type='reset' onClick={() => { toggleModal(false); resetForm() }} className='button'>Cancel</button>
-						<button type='submit' onClick={() => toggleModal(false)} className='button right'>Accept</button>
+						<button type='submit' className='button right'>Accept</button>
 					</div>
 				</div>
 			</form>
